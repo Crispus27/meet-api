@@ -1,5 +1,4 @@
 const express = require('express');
-
 const app = express();
 const eventRoutes = require('./routes/events')
 

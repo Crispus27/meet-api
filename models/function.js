@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Ticket = sequelize.define("tickets", {
+    const Function = sequelize.define("functions", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true
@@ -9,5 +9,5 @@ module.exports = (sequelize, Sequelize) => {
       }
     });
   
-    return Ticket;
+    return Function;
   };
