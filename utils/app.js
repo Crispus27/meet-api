@@ -45,11 +45,11 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 
-const server = app.listen(PORT, () => {
+/*const server = app.listen(PORT, () => {
 	console.log(
 		`We are live on ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
 	)
-})
+})*/
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
