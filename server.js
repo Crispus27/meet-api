@@ -1,12 +1,13 @@
 const http = require('http');
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = process.env.PORT || 3001;
 const app = require('./app');
 const dotenv = require('dotenv')
 
 dotenv.config({ path: './config/.env' })
+const DBConnection = require('./config/db')
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', port);
 const server = http.createServer(app);
 
 server.listen(port, hostname, () => {
