@@ -4,7 +4,6 @@ const port = process.env.PORT || 3001;
 const app = require('./app');
 const dotenv = require('dotenv')
 
-
 dotenv.config({ path: './config/.env' })
 const DBConnection = require('./config/db')
 
