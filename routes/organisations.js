@@ -4,8 +4,10 @@ const hp = require('../utils/helpers');
 const path = require('path');
 const {
 	getOrganisations,
-	getOrganisation,
+	getOneOrganisation,
+    activateOrDeactivateOrg,
 	getOrganisationsCount,
+    assignFuncToUser,
 	createOrganisation,
 	sendOrganisationEmail,
 	updateOrganisation,
@@ -35,12 +37,15 @@ let addRules = [
     body('name').isString(),
     body('email').isString().isEmail(),
 ];
+let assignRules = [
+    body('user_id').isNumeric(),
+    body('organisation_id').isNumeric(),
+    body('function_id').isNumeric(),
+];
 router.post('/upload/image',uploadOrganisationImage.single('image'),uploadImgRules,uploadImage)
 router.route('/').get(getOrganisations).post(addRules,createOrganisation)
-
 //router.route('/count').get(getOrganisationsCount)
-
-//router.route('/:id').get(getOrganisation).put(updateOrganisation).delete(deleteOrganisation)
-
+router.route('/:id').get(getOneOrganisation).put(addRules,updateOrganisation).patch(activateOrDeactivateOrg).delete(deleteOrganisation)
+router.route('/assign_function').post(assignRules,assignFuncToUser);
 
 module.exports = router

@@ -1,14 +1,11 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize('meet', 'root', '', {
     host: 'localhost',
-    dialect: 'mysql' // 'mariadb'
+    dialect: 'mysql'
 });
-try {
-     sequelize.authenticate().then((result)=>{console.log('db connected successfully')}).catch((error)=>{console.log('db failed to ceonnect')});
-    console.log('Connection has been established successfully.');
-} catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
+const User = require('./User')(sequelize,Sequelize);
+const FunctionOrganisation = require('./FunctionOrganisation');
+
 class Organisation extends Model {}
 
 Organisation.init({
@@ -16,11 +13,17 @@ Organisation.init({
     slug: {
         type: DataTypes.STRING,
         allowNull: false,
-
     },
     name: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    user_id:{
+        type:DataTypes.INTEGER,
+        references:{
+            model:User,
+            key:"id"
+        }
     },
     logo_url: {
         type: DataTypes.JSON
@@ -52,7 +55,7 @@ Organisation.init({
     },
     is_active:{
         type:DataTypes.BOOLEAN,
-        default:true
+        defaultValue:true
     },
     email:{
         type:DataTypes.STRING
@@ -73,6 +76,12 @@ Organisation.init({
     tableName: 'organizations',
     indexes: [{ unique: true, fields: ['slug','email',] }]
 });
+Organisation.belongsTo(User,
+    {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    });
 
 module.exports = Organisation;
 
