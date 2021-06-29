@@ -9,12 +9,11 @@ exports.register = asyncHandler(async (req, res, next) => {
     const { body } = req;
 
     if (!errors.isEmpty()) {
-        return res.render('register', {
-            error: errors.array()[0].msg
-        });
+        return res.status(400).json({ errors: errors.array() });
+
     }
     try {
-        
+        let result =  await Organisation.create(datas);
         res.status(200).json({ success: true, data: events, nbr: events.length })
     } catch (error) {
         next(error);
