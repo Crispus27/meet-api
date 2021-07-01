@@ -5,6 +5,7 @@ const Organisation = require('../models/Organisation');
 const FunctionOrganisation = require('../models/FunctionOrganisation');
 const { body, validationResult } = require('express-validator');
 const slugify = require('slugify')
+const redisClient = require("../utils/redis_client");
 const { Op } = require("sequelize");
 
 
@@ -56,6 +57,8 @@ exports.uploadImage = (req,res)=>{
 
 };
 exports.createOrganisation = async (req,res)=>{
+    let connectedUser = JSON.parse(await redisClient.get(req.headers['sid']));
+
     //validating request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

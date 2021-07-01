@@ -1,23 +1,42 @@
-module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("users", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true
-      },
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = new Sequelize('meet', 'root', '', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
+const Role = require('./role')(sequelize,Sequelize);
+class User extends Model {}
+
+User.init({
+    slug: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
       first_name: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       last_name: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       password: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       }
+    },{
+    // Other model options go here
+    sequelize, // We need to pass the connection instance
+    modelName: 'User', // We need to choose the model name
+    tableName: 'users',
+    indexes: [{ unique: true, fields: ['slug','email',] }]
+});
+User.belongsTo(Role,
+    {
+        foreignKey: 'user_id',
+        //onDelete: 'CASCADE',
+        //onUpdate: 'CASCADE'
     });
 
-    return User;
-  };
+module.exports  = User;
+
   
