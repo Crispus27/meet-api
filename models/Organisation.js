@@ -3,7 +3,7 @@ const sequelize = new Sequelize('meet', 'root', '', {
     host: 'localhost',
     dialect: 'mysql'
 });
-const User = require('./User')(sequelize,Sequelize);
+const User = require('./User');
 const FunctionOrganisation = require('./FunctionOrganisation');
 
 class Organisation extends Model {}
